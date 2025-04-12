@@ -24,6 +24,7 @@
   flex-direction: column;
   overflow: hidden;
   animation: slideUp 0.2s ease;
+  max-height: 90vh;
 }
 
 @keyframes slideUp {
@@ -99,7 +100,7 @@
   cursor: pointer;
   position: relative;
   transition: background-color 0.2s;
-  border-bottom: 1px solid var(--background-tertiary);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .chatItem:hover {
@@ -396,6 +397,7 @@
     display: flex;
     align-items: center;
     border-bottom: 1px solid var(--border-color);
+    background-color: var(--background-primary);
   }
   
   .chatAvatar {
@@ -407,7 +409,7 @@
   .avatarPlaceholder {
     font-size: 16px;
     font-weight: 600;
-    background-color: #FF6B35;
+    background-color: var(--upvote-color);
   }
   
   .chatUser {
@@ -558,6 +560,8 @@
   .chatItem {
     min-height: 64px;
     padding: 14px;
+    border-bottom: 1px solid var(--border-color);
+    background-color: var(--background-primary);
   }
   
   .chatAvatar {
