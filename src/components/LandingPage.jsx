@@ -3,34 +3,28 @@ import styles from './LandingPage.module.css';
 import '../styles/transitions.css'; // Import transitions
 
 const LandingPage = ({ onLogin }) => {
-  // Add touch event handling for mobile
-  useEffect(() => {
-    const button = document.querySelector(`.${styles.primaryButton}`);
+  // Enhance click functionality for mobile
+  const handleButtonClick = (e) => {
+    // Prevent any default behavior that might interfere
+    e.preventDefault();
     
-    // Add event listeners for mobile touch events
-    if (button) {
-      // Prevent default touch behavior
-      const preventDefaultTouch = (e) => {
-        e.preventDefault();
-      };
-      
-      // Handle click for mobile
-      const handleMobileClick = () => {
-        if (onLogin) {
-          onLogin();
-        }
-      };
-      
-      button.addEventListener('touchstart', preventDefaultTouch, { passive: false });
-      button.addEventListener('touchend', handleMobileClick);
-      
-      // Clean up
-      return () => {
-        button.removeEventListener('touchstart', preventDefaultTouch);
-        button.removeEventListener('touchend', handleMobileClick);
-      };
+    // Call the onLogin function
+    if (onLogin) {
+      onLogin();
     }
-  }, [onLogin]);
+  };
+  
+  // Handle touch events specially for mobile
+  const handleTouchStart = (e) => {
+    // Prevent default to avoid any unwanted behaviors
+    e.currentTarget.classList.add(styles.touching);
+  };
+  
+  const handleTouchEnd = (e) => {
+    e.currentTarget.classList.remove(styles.touching);
+    // Call login on touch end
+    handleButtonClick(e);
+  };
   
   return (
     <div className={styles.landingPage}>
@@ -53,11 +47,12 @@ const LandingPage = ({ onLogin }) => {
             <div className={`${styles.heroCta} feed-item`}>
               <button 
                 className={`${styles.primaryButton} ${styles.mobileReady}`}
-                onClick={onLogin}
+                onClick={handleButtonClick}
+                onTouchStart={handleTouchStart}
+                onTouchEnd={handleTouchEnd}
                 role="button"
                 tabIndex={0}
                 aria-label="Get started"
-                id="getStartedButton"
               >
                 Get started
               </button>

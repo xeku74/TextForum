@@ -273,21 +273,19 @@
 /* Mockup Styles */
 .mockupContainer {
   width: 100%;
-  max-width: 600px;
+  max-width: 750px;
   perspective: 1000px;
   position: relative;
   z-index: 2;
-  margin: 0 auto;
-  overflow: hidden;
 }
 
 .mockupContainer::after {
   content: '';
   position: absolute;
-  top: -40px;
-  left: -40px;
-  right: -40px;
-  bottom: -40px;
+  top: -80px;
+  left: -80px;
+  right: -80px;
+  bottom: -80px;
   background: radial-gradient(circle at center, 
     rgba(var(--landing-primary-rgb), 0.3) 0%, 
     rgba(var(--landing-primary-rgb), 0.1) 35%,
@@ -317,13 +315,13 @@
 
 @keyframes floatAnimation {
   0% {
-    transform: perspective(1200px) rotateY(-5deg) rotateX(3deg) translateZ(0) translateX(0);
+    transform: perspective(1200px) rotateY(-10deg) rotateX(5deg) translateZ(20px) translateX(15px);
   }
   50% {
-    transform: perspective(1200px) rotateY(-5deg) rotateX(3deg) translateZ(15px) translateX(0);
+    transform: perspective(1200px) rotateY(-10deg) rotateX(5deg) translateZ(40px) translateX(15px);
   }
   100% {
-    transform: perspective(1200px) rotateY(-5deg) rotateX(3deg) translateZ(0) translateX(0);
+    transform: perspective(1200px) rotateY(-10deg) rotateX(5deg) translateZ(20px) translateX(15px);
   }
 }
 
@@ -353,10 +351,10 @@
 
 .mockupFrame {
   width: 100%;
-  max-width: 600px;
-  height: 400px;
+  max-width: 800px;
+  height: 500px;
   display: grid;
-  grid-template-columns: 150px 1fr 180px;
+  grid-template-columns: 200px 1fr 250px;
   grid-template-areas:
     "header header header"
     "sidebar feed widget";
@@ -365,7 +363,7 @@
   padding: 1rem;
   gap: 1rem;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-  transform: perspective(1200px) rotateY(-5deg) rotateX(3deg) translateZ(10px) translateX(0);
+  transform: perspective(1200px) rotateY(-10deg) rotateX(5deg) translateZ(20px) translateX(15px);
   transform-style: preserve-3d;
   transform-origin: center center;
   animation: floatAnimation 8s ease-in-out infinite;
@@ -374,7 +372,6 @@
   transition: transform 1.5s cubic-bezier(0.19, 1, 0.22, 1), 
               box-shadow 1.5s cubic-bezier(0.19, 1, 0.22, 1);
   will-change: transform, box-shadow;
-  margin: 0 auto;
 }
 
 .mockupFrame::before {
@@ -1494,10 +1491,22 @@
     position: relative;
   }
   
+  .mockupContainer {
+    max-width: 90%;
+    margin: 0 auto;
+    overflow: hidden;
+    width: 100%;
+  }
+  
   .mockupFrame {
     width: 100%;
-    max-width: 400px;
+    max-width: 95%;
     margin: 0 auto;
+    scale: 0.95;
+    height: 400px;
+    /* Simplify the transform for mobile to prevent it from going off-screen */
+    transform: perspective(1000px) rotateY(-5deg) rotateX(2deg) translateZ(0) translateX(0);
+    animation: none;
   }
   
   .header {
@@ -1533,25 +1542,6 @@
     gap: 1rem;
     text-align: center;
   }
-  
-  .heroImage {
-    width: 100%;
-    padding: 0 20px;
-    display: flex;
-    justify-content: center;
-    overflow: hidden;
-  }
-  
-  .mockupContainer {
-    max-width: 450px;
-    transform: scale(0.9);
-  }
-  
-  .mockupFrame {
-    max-width: 450px;
-    height: 320px;
-    transform: perspective(800px) rotateY(-3deg) rotateX(2deg) translateZ(0) translateX(0);
-  }
 }
 
 @media (max-width: 480px) {
@@ -1571,8 +1561,18 @@
     border-radius: 50px;
   }
   
+  .mockupContainer {
+    max-width: 100%;
+    overflow: visible;
+    transform: scale(0.9); /* Scale down slightly to ensure it fits */
+  }
+  
   .mockupFrame {
-    height: 240px;
+    height: 220px;
+    transform: perspective(800px) rotateY(0deg) rotateX(0deg);
+    scale: 0.9;
+    max-width: 95%;
+    margin: 0 auto;
   }
   
   .mockupSidebar, .mockupWidget {
@@ -1590,28 +1590,6 @@
   
   .highlightTitle {
     font-size: 1.4rem;
-  }
-  
-  .heroImage {
-    padding: 0 10px;
-    margin-bottom: 20px;
-  }
-  
-  .mockupContainer {
-    max-width: 320px;
-    transform: scale(0.85);
-  }
-  
-  .mockupFrame {
-    max-width: 320px;
-    height: 240px;
-    grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr;
-    grid-template-areas:
-      "header"
-      "feed";
-    padding: 8px;
-    gap: 8px;
   }
 }
 
@@ -1659,42 +1637,38 @@
   -ms-user-select: none;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
-  outline: none; /* Remove outline focus ring */
-  transition: all 0.3s ease;
-}
-
-/* Add a specific style for active state on mobile */
-.primaryButton:active {
-  transform: scale(0.98);
-  opacity: 0.95;
 }
 
 @media (max-width: 768px) {
   .heroCta .primaryButton {
-    min-height: 56px;
+    min-height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 15px 30px;
-    font-size: 18px;
-    border-radius: 50px;
-    margin: 0 auto;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    /* Ensure solid background for reliability */
+    background-color: var(--landing-primary);
+    /* Use larger hit target */
+    position: relative;
   }
   
-  /* Add a focus ring for accessibility */
-  .heroCta .primaryButton:focus-visible {
-    box-shadow: 0 0 0 3px rgba(var(--landing-primary-rgb), 0.5);
+  /* Create a larger hit area */
+  .heroCta .primaryButton::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    z-index: -1;
   }
 }
 
 @media (max-width: 480px) {
   .heroCta .primaryButton {
-    min-height: 60px;
-    width: 85%;
-    font-size: 18px;
+    min-height: 54px;
+    width: 80%;
+    /* Slightly bolder text for visibility */
     font-weight: 700;
-    letter-spacing: 0.5px;
   }
 }
 
@@ -1703,36 +1677,44 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
 @media (max-width: 768px) {
   .mobileReady {
-    width: 250px;
-    padding: 16px 24px;
-    font-size: 18px;
+    width: 220px;
+    padding: 14px 20px;
+    font-size: 16px;
     border-radius: 50px;
     background-color: var(--landing-primary);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     letter-spacing: 0.5px;
-    border: none;
   }
   
-  /* Improve button hit area with a pseudo-element */
-  .mobileReady::before {
-    content: '';
-    position: absolute;
-    top: -15px;
-    left: -15px;
-    right: -15px;
-    bottom: -15px;
-    z-index: -1;
+  /* Active state for mobile */
+  .mobileReady:active {
+    transform: scale(0.98);
+    background-color: #1a8cd8; /* Slightly darker when pressed */
   }
 }
 
 @media (max-width: 480px) {
   .mobileReady {
     width: 90%;
-    max-width: 320px;
-    padding: 16px 24px;
+    max-width: 280px;
+  }
+}
+
+/* Touch state for mobile devices */
+.touching {
+  transform: scale(0.98) !important;
+  background-color: #1a8cd8 !important;
+  opacity: 0.95;
+  transition: none !important;
+}
+
+@media (max-width: 768px) {
+  .touching {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2) !important;
   }
 } 
