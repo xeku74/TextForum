@@ -1,0 +1,180 @@
+/* src/components/CreatePost.module.css */
+.createPostContainer {
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 16px;
+  margin-bottom: 20px;
+  background-color: var(--background-secondary); /* Slightly lighter background */
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.createPostContainer:focus-within {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 1px rgba(29, 155, 240, 0.15);
+  transform: translateY(-1px);
+}
+
+.createPostContainer.submitting {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.createPostContainer.success {
+  border-color: #4BB543; /* Green for success */
+  animation: successPulse 1.5s ease;
+}
+
+@keyframes successPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(75, 181, 67, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(75, 181, 67, 0);
+  }
+}
+
+.createPostInput {
+  width: 100%;
+  padding: 11px;
+  margin-bottom: 11px;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  background-color: var(--background-primary);
+  color: var(--foreground-primary);
+  font-size: 14px;
+  resize: vertical;
+  box-sizing: border-box; /* Include padding/border in width */
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
+}
+
+.createPostInput:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 1px rgba(29, 155, 240, 0.15);
+  transform: scale(1.002);
+}
+
+.createPostInput:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: flex-end; /* Align button to right */
+  align-items: center;
+  position: relative;
+}
+
+.successMessage {
+  position: absolute;
+  left: 0;
+  color: #4BB543; /* Green success color */
+  font-size: 14px;
+  opacity: 0;
+  animation: fadeIn 0.3s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.createPostButton {
+  background-color: var(--accent-color);
+  color: white;
+  border: none;
+  border-radius: 20px; /* More rounded */
+  padding: 9px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+
+.createPostButton:hover:not(:disabled) {
+  background-color: var(--button-hover-bg);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.createPostButton:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.createPostButton.submitting {
+  position: relative;
+  padding-left: 35px;
+}
+
+.createPostButton.submitting::before {
+  content: '';
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top-color: var(--background-secondary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: translateY(-50%) rotate(0deg);
+  }
+  100% {
+    transform: translateY(-50%) rotate(360deg);
+  }
+}
+
+/* Add ripple effect */
+.createPostButton::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  border-radius: 100%;
+  transform: scale(1, 1) translate(-50%, -50%);
+  transform-origin: 50% 50%;
+}
+
+.createPostButton:active::after {
+  animation: ripple 0.6s ease-out;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0, 0) translate(-50%, -50%);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(20, 20) translate(-50%, -50%);
+    opacity: 0;
+  }
+}
+
+/* Add disabled state */
+.createPostButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+} 

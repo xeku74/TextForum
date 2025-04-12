@@ -1,0 +1,209 @@
+.commentContainer {
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.commentHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.commentAuthor {
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--foreground-primary);
+  margin-right: 8px;
+}
+
+.commentTime {
+  font-size: 12px;
+  color: var(--foreground-secondary);
+}
+
+.commentContent {
+  font-size: 14px;
+  line-height: 1.4;
+  margin-bottom: 8px;
+  color: var(--foreground-primary);
+  word-break: break-word;
+}
+
+.commentActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.voteContainer {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px;
+}
+
+.voteButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.voteButton svg {
+  fill: currentColor;
+  color: var(--foreground-secondary);
+  display: block;
+  line-height: 1;
+  margin: auto;
+}
+
+.voteButton:hover {
+  background-color: rgba(200, 200, 200, 0.1);
+  color: #FF4500;
+}
+
+.voteButton.upvoted {
+  color: #FF4500;
+}
+
+.voteButton.downvoted {
+  color: #7193FF;
+}
+
+.voteButton:hover.downvoted {
+  color: #7193FF;
+}
+
+.voteCount {
+  font-size: 13px;
+  font-weight: bold;
+  color: var(--foreground-primary);
+  min-width: 16px;
+  text-align: center;
+}
+
+.voteCount.upvoted {
+  color: #FF4500;
+}
+
+.voteCount.downvoted {
+  color: #7193FF;
+}
+
+.actionButton {
+  background: none;
+  border: none;
+  color: var(--foreground-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.actionButton:hover {
+  background-color: rgba(100, 100, 100, 0.3);
+  color: var(--foreground-primary);
+}
+
+.actionButton:active {
+  transform: scale(0.95);
+}
+
+.voteArrow {
+  transition: transform 0.2s ease, color 0.2s ease;
+  display: block;
+  line-height: 1;
+  margin: auto;
+}
+
+.actionButton svg {
+  color: inherit;
+}
+
+.actionButton:hover .voteArrow:first-of-type {
+  transform: translateY(-2px);
+  color: var(--upvote-color);
+}
+
+.actionButton:hover .voteArrow:last-of-type {
+  transform: translateY(2px);
+  color: #7193ff;
+}
+
+.upvoted {
+  color: var(--upvote-color);
+}
+
+.downvoted {
+  color: #7193ff;
+}
+
+.replyButton {
+  background: none;
+  border: none;
+  font-size: 12px;
+  color: var(--foreground-secondary);
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.replyButton:hover {
+  background-color: rgba(100, 100, 100, 0.2);
+  color: var(--foreground-primary);
+}
+
+.replies {
+  margin-left: 20px;
+  padding-left: 10px;
+  border-left: 2px solid rgba(100, 100, 100, 0.2);
+  margin-top: 5px;
+}
+
+.voteButton.upvoted svg {
+  color: var(--upvote-color);
+}
+
+.voteButton.downvoted svg {
+  color: var(--downvote-color);
+}
+
+.voteButton:hover svg {
+  transform: scale(1.2);
+}
+
+.voteButton.upvoted:hover svg {
+  color: var(--upvote-color);
+}
+
+.voteButton.downvoted:hover svg {
+  color: var(--downvote-color);
+}
+
+.voteButton:hover:not(.upvoted) svg path:first-child {
+  color: var(--upvote-color);
+  transform: translateY(-1px);
+}
+
+.voteButton:hover:not(.downvoted) svg path:first-child {
+  color: var(--downvote-color);
+  transform: translateY(1px);
+}
+
+.upvoted svg {
+  color: var(--upvote-color) !important;
+}
+
+.downvoted svg {
+  color: var(--downvote-color) !important;
+} 

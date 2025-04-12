@@ -1,0 +1,198 @@
+:root {
+  /* Common variables */
+  --border-radius: 8px;
+  --font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  --upvote-color: #FF4500;
+  --downvote-color: #7193FF;
+  --accent-color: #1d9bf0;
+  --accent-color-rgb: 29, 155, 240; /* Blue color for buttons */
+  
+  /* Animation durations */
+  --transition-speed: 0.2s;
+
+  /* Dark Theme Variables */
+  --background-primary: #030303;
+  --background-secondary: #1A1A1B;
+  --background-tertiary: #272729;
+  --foreground-primary: #D7DADC;
+  --foreground-secondary: #818384;
+  --border-color: #343536;
+  --accent-color-hover: #FFFFFF;
+  --button-bg: #D7DADC;
+  --button-text: #1A1A1B;
+  --button-hover-bg: #FFFFFF;
+  --link-color: #D7DADC;
+  --link-hover-color: #FFFFFF;
+
+  /* Font settings */
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark; /* Inform browser about supported schemes */
+  color: var(--foreground-primary);
+  background-color: var(--background-primary);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Apply a simplified transition approach for theme switching */
+html {
+  transition: background-color 0.1s ease-out;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column; /* Stack content vertically */
+  min-width: 320px;
+  min-height: 100vh;
+  font-family: var(--font-family);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--background-primary);
+  color: var(--foreground-primary);
+}
+
+body.light-theme {
+  /* Light theme colors */
+  --background-primary: #ffffff;
+  --background-secondary: #f8f8f8;
+  --background-tertiary: #efefef;
+  --foreground-primary: #1a1a1a;
+  --foreground-secondary: #595959;
+  --border-color: rgba(0, 0, 0, 0.1);
+  --button-bg: #1d9bf0;
+  --button-hover-bg: #1a8cd8;
+  --button-text: white;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --hover-bg: rgba(0, 0, 0, 0.05);
+}
+
+body.dark-theme {
+  /* Dark theme colors */
+  --background-primary: #121212;
+  --background-secondary: #1a1a1a;
+  --background-tertiary: #2a2a2a;
+  --foreground-primary: #f0f0f0;
+  --foreground-secondary: #a0a0a0;
+  --border-color: rgba(255, 255, 255, 0.1);
+  --button-bg: #1d9bf0;
+  --button-hover-bg: #1a8cd8;
+  --button-text: white;
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  --hover-bg: rgba(255, 255, 255, 0.05);
+}
+
+body:not(.light-theme):not(.dark-theme) {
+  /* Apply dark theme by default if no theme class is set */
+  --background-primary: #121212;
+  --background-secondary: #1a1a1a;
+  --background-tertiary: #2a2a2a;
+  --foreground-primary: #f0f0f0;
+  --foreground-secondary: #a0a0a0;
+  --border-color: rgba(255, 255, 255, 0.1);
+  --button-bg: #1d9bf0;
+  --button-hover-bg: #1a8cd8;
+  --button-text: white;
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  --hover-bg: rgba(255, 255, 255, 0.05);
+}
+
+/* Basic reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Apply transitions only to specific properties that need them */
+/* This prevents the "cascade" effect where different elements change at different times */
+body,
+header,
+button,
+.searchInput,
+input,
+textarea,
+a,
+.postContainer,
+.commentContainer,
+.feedContainer,
+.widgetsContainer,
+.sidebarContainer {
+  transition: none;
+}
+
+/* Apply background transitions */
+body,
+.header,
+.postContainer,
+.commentContainer,
+.app,
+.appContainer,
+.searchInput,
+button,
+.createPostModalContent,
+.widgetsContainer,
+.sidebarContainer {
+  transition: 
+    background-color 0.1s ease-out,
+    border-color 0.1s ease-out;
+}
+
+/* Apply text transitions */
+body,
+button,
+h1, h2, h3, h4, h5, h6,
+p, span, a, div,
+.searchInput::placeholder,
+input, textarea {
+  transition: color 0.1s ease-out;
+}
+
+/* Hover effects should still be smooth */
+button:hover,
+.actionButton:hover,
+a:hover {
+  transition: 
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+a {
+  font-weight: 500;
+  color: var(--link-color);
+  text-decoration: inherit;
+  transition: color 0.2s;
+}
+a:hover {
+  color: var(--link-hover-color);
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  cursor: pointer;
+  transition: border-color 0.25s, background-color 0.2s, opacity 0.2s;
+}
+button:hover {
+  background-color: var(--button-hover-bg);
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color; /* Basic focus outline */
+}
+
+/* If you want to use the dark theme always for now */
+/* @media (prefers-color-scheme: light) { */
+  /* Override variables here if you want a light theme later */
+/* } */

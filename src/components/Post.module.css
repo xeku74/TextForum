@@ -1,0 +1,301 @@
+/* src/components/Post.module.css */
+.postContainer {
+  border-bottom: 1px solid var(--border-color);
+  border-radius: 0;
+  padding: 12px 16px;
+  margin-bottom: 0;
+  background-color: var(--background-secondary);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.postContainer:hover {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+.postContainer:active {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.postContainer.expanded {
+  border-color: var(--foreground-primary);
+}
+
+.postHeader {
+  font-size: 13px;
+  color: var(--foreground-secondary);
+  margin-bottom: 2px;
+  display: flex;
+  align-items: center;
+}
+
+.postTitle {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0 0 4px 0;
+  color: var(--foreground-primary);
+  line-height: 1.3;
+}
+
+.postContainer:hover .postTitle {
+  color: var(--foreground-primary);
+}
+
+.postBody {
+  font-size: 15px;
+  line-height: 1.4;
+  color: var(--foreground-primary);
+  white-space: pre-wrap;
+  margin-bottom: 8px;
+  max-height: 200px;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.expanded .postBody {
+  max-height: 1000px;
+}
+
+.postActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-top: 2px;
+}
+
+/* Vote container for upvote/downvote buttons and count */
+.voteContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  padding: 0;
+  margin-right: 4px;
+}
+
+.voteCount {
+  font-size: 13px;
+  font-weight: normal;
+  min-width: 20px;
+  text-align: center;
+  padding: 0 2px;
+  color: var(--foreground-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.actionButton {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  padding: 4px;
+  border-radius: 20px;
+  color: var(--foreground-secondary);
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.2s;
+}
+
+.voteContainer .actionButton {
+  border-radius: 50%;
+  padding: 4px;
+  margin: 0;
+  height: 30px;
+  width: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.actionButton:hover {
+  background-color: rgba(29, 155, 240, 0.1);
+  color: var(--accent-color);
+}
+
+.actionButton:active {
+  transform: scale(0.95);
+}
+
+.voteArrow {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.actionButton:hover .voteArrow:first-child {
+  color: var(--accent-color);
+}
+
+.actionButton:hover .voteArrow:last-child {
+  color: var(--accent-color);
+}
+
+.actionIcon {
+  opacity: 0.85;
+  transition: all 0.2s;
+}
+
+.actionButton:hover .actionIcon {
+  opacity: 1;
+}
+
+.actionLabel {
+  font-size: 13px;
+}
+
+/* Upvoted and downvoted states */
+.upvoted {
+  color: var(--accent-color);
+}
+
+.upvoted .voteArrow {
+  color: var(--accent-color);
+}
+
+.downvoted {
+  color: var(--accent-color);
+}
+
+.downvoted .voteArrow {
+  color: var(--accent-color);
+}
+
+/* Add ripple effect */
+.actionButton::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(29, 155, 240, 0.2);
+  opacity: 0;
+  border-radius: 100%;
+  transform: scale(1, 1) translate(-50%, -50%);
+  transform-origin: 50% 50%;
+}
+
+/* Keep the rest of the CSS the same */
+.actionButton:active::after {
+  animation: ripple 0.4s ease-out;
+  opacity: 1;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0, 0) translate(-50%, -50%);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(25, 25) translate(-50%, -50%);
+    opacity: 0;
+  }
+}
+
+.commentsSection {
+  margin-top: 8px;
+  border-top: 1px solid var(--border-color);
+  padding-top: 8px;
+}
+
+.commentsList {
+  margin-top: 8px;
+}
+
+.showingComments {
+  cursor: default;
+}
+
+.showingComments .postContent {
+  margin-bottom: 8px;
+}
+
+.postContent {
+  transition: margin-bottom 0.3s ease;
+  margin-bottom: 0;
+}
+
+.active {
+  color: var(--accent-color);
+}
+
+.addCommentContainer {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  position: relative;
+}
+
+.addCommentInput {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 20px;
+  background-color: rgba(80, 80, 80, 0.2);
+  color: var(--foreground-primary);
+  border: 1px solid var(--border-color);
+  font-size: 14px;
+  resize: none;
+}
+
+.addCommentInput:focus {
+  outline: none;
+  border-color: var(--accent-color);
+}
+
+.addCommentButton {
+  padding: 6px 16px;
+  border-radius: 20px;
+  background-color: var(--accent-color);
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.addCommentButton:hover {
+  background-color: var(--accent-hover-color, #1a8cd8);
+}
+
+.addCommentButton:disabled {
+  background-color: #8ab8d8;
+  cursor: not-allowed;
+}
+
+.addCommentButton:disabled:hover {
+  background-color: #8ab8d8;
+}
+
+.noComments {
+  text-align: center;
+  padding: 12px;
+  color: var(--foreground-secondary);
+  font-style: italic;
+}
+
+/* Upvote and downvote specific styles */
+.upvoteButton, .downvoteButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Ensure SVGs are perfectly centered in their containers */
+.upvoteButton svg,
+.downvoteButton svg {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+} 

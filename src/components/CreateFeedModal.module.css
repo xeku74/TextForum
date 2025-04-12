@@ -1,0 +1,327 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  overflow: hidden;
+  animation: fadeIn 0.2s ease-out;
+  backdrop-filter: blur(2px);
+}
+
+.modalContent {
+  background-color: var(--background-primary);
+  border-radius: 12px;
+  width: 100%;
+  max-width: 450px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 0 30px 10px rgba(0, 0, 0, 0.25), 0 0 12px rgba(0, 0, 0, 0.15);
+  animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-origin: center top;
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Form element animations */
+.modalHeader, .formGroup, .toggleContainer, .actions {
+  animation: contentFadeIn 0.3s ease-out forwards;
+  opacity: 0;
+}
+
+.modalHeader {
+  animation-delay: 0.1s;
+}
+
+.formGroup:nth-child(1) {
+  animation-delay: 0.15s;
+}
+
+.formGroup:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.toggleContainer:nth-child(3) {
+  animation-delay: 0.25s;
+}
+
+.toggleContainer:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+.actions {
+  animation-delay: 0.35s;
+}
+
+@keyframes contentFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.modalTitle {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--foreground-primary);
+  margin: 0;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  color: var(--foreground-secondary);
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  transition: all 0.2s ease;
+}
+
+.closeButton:hover {
+  background-color: rgba(var(--foreground-rgb), 0.1);
+  color: var(--foreground-primary);
+}
+
+.closeButton svg {
+  width: 20px;
+  height: 20px;
+}
+
+.modalBody {
+  padding: 20px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.formGroup {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--foreground-primary);
+  display: flex;
+  align-items: center;
+}
+
+.required {
+  color: var(--accent-color);
+  margin-left: 2px;
+}
+
+.inputField {
+  width: 100%;
+  padding: 14px 18px;
+  border-radius: 8px;
+  background-color: var(--background-secondary);
+  color: var(--foreground-primary);
+  border: 1px solid var(--border-color);
+  font-size: 16px;
+  transition: all 0.2s ease;
+}
+
+.inputField:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 2px rgba(var(--accent-color-rgb), 0.15);
+  background-color: rgba(var(--background-secondary-rgb), 0.8);
+}
+
+.textareaField {
+  width: 100%;
+  min-height: 100px;
+  padding: 14px 18px;
+  border-radius: 8px;
+  background-color: var(--background-secondary);
+  color: var(--foreground-primary);
+  border: 1px solid var(--border-color);
+  font-size: 16px;
+  resize: vertical;
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+
+.textareaField:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 2px rgba(var(--accent-color-rgb), 0.15);
+  background-color: rgba(var(--background-secondary-rgb), 0.8);
+}
+
+.charCount {
+  position: absolute;
+  right: 5px;
+  bottom: -22px;
+  font-size: 12px;
+  color: var(--foreground-tertiary);
+}
+
+.toggleContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.toggleLabel {
+  display: flex;
+  flex-direction: column;
+}
+
+.toggleTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--foreground-primary);
+  margin-bottom: 4px;
+}
+
+.toggleDescription {
+  font-size: 12px;
+  color: var(--foreground-secondary);
+}
+
+.toggle {
+  position: relative;
+  display: inline-block;
+  width: 46px;
+  height: 24px;
+}
+
+.toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--background-tertiary);
+  transition: .3s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .3s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: var(--accent-color);
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px var(--accent-color);
+}
+
+input:checked + .slider:before {
+  transform: translateX(22px);
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+  border-top: 1px solid var(--border-color);
+  padding-top: 20px;
+}
+
+.cancelButton {
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background-color: transparent;
+  color: var(--foreground-primary);
+  border: 1px solid var(--border-color);
+}
+
+.cancelButton:hover {
+  background-color: var(--background-secondary);
+}
+
+.submitButton {
+  padding: 10px 24px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background-color: var(--accent-color);
+  color: white;
+  border: none;
+}
+
+.submitButton:hover {
+  background-color: var(--button-hover-bg);
+}
+
+.submitButton:disabled {
+  background-color: var(--background-tertiary);
+  color: var(--foreground-tertiary);
+  cursor: not-allowed;
+} 

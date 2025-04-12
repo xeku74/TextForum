@@ -1,0 +1,319 @@
+.notificationsOverlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: transparent;
+  z-index: 1000;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.notificationsContainer {
+  position: absolute;
+  top: 64px;
+  right: 15px;
+  width: 360px;
+  max-height: 550px;
+  background-color: var(--background-primary);
+  border-radius: 14px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: slideDown 0.2s ease-out;
+  z-index: 1001;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--foreground-primary);
+  margin: 0;
+}
+
+.settings {
+  background: none;
+  border: none;
+  color: var(--foreground-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+.settings:hover {
+  background-color: rgba(var(--foreground-rgb), 0.1);
+  color: var(--foreground-primary);
+}
+
+.tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.tab {
+  flex: 1;
+  text-align: center;
+  padding: 14px 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--foreground-secondary);
+  cursor: pointer;
+  transition: color 0.2s;
+  position: relative;
+}
+
+.tab:hover {
+  color: var(--foreground-primary);
+}
+
+.activeTab {
+  color: var(--foreground-primary);
+}
+
+.activeTab::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background-color: var(--accent-color);
+  border-radius: 3px 3px 0 0;
+}
+
+.content {
+  overflow-y: auto;
+  flex-grow: 1;
+  max-height: 400px;
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  padding: 20px;
+  text-align: center;
+}
+
+.emptyStateIcon {
+  width: 60px;
+  height: 60px;
+  color: var(--foreground-tertiary);
+  margin-bottom: 16px;
+}
+
+.emptyStateTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--foreground-primary);
+  margin-bottom: 8px;
+}
+
+.emptyStateText {
+  font-size: 15px;
+  color: var(--foreground-secondary);
+  max-width: 280px;
+  line-height: 1.4;
+}
+
+.notificationList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.notificationItem {
+  display: flex;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border-color);
+  transition: background-color 0.2s;
+  position: relative;
+}
+
+.notificationItem:hover {
+  background-color: var(--background-secondary);
+}
+
+.notificationItem.unread::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--accent-color);
+}
+
+.notificationAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 12px;
+  background-color: var(--background-tertiary);
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--foreground-primary);
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.systemAvatar {
+  background-color: var(--accent-color);
+  color: white;
+}
+
+.notificationContent {
+  flex-grow: 1;
+}
+
+.notificationText {
+  font-size: 14px;
+  color: var(--foreground-primary);
+  margin-bottom: 4px;
+  line-height: 1.5;
+}
+
+.notificationText strong {
+  font-weight: 600;
+}
+
+.notificationMeta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.notificationTime {
+  font-size: 13px;
+  color: var(--foreground-tertiary);
+}
+
+.notificationSource {
+  font-size: 13px;
+  background-color: rgba(var(--foreground-rgb), 0.1);
+  color: var(--foreground-tertiary);
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.actionButton {
+  font-size: 10px;
+  background-color: var(--accent-color);
+  color: white;
+  padding: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  margin-left: auto;
+  margin-right: 6px;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.actionButton svg {
+  stroke-width: 2.5;
+}
+
+.actionButton:hover {
+  background-color: var(--button-hover-bg);
+  transform: translateY(-1px);
+}
+
+.menuButton {
+  color: var(--foreground-secondary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin-left: 4px;
+  flex-shrink: 0;
+}
+
+.menuButton:hover {
+  background-color: rgba(var(--foreground-rgb), 0.1);
+  color: var(--foreground-primary);
+}
+
+.footer {
+  border-top: 1px solid var(--border-color);
+  padding: 14px 20px;
+}
+
+.markAllButton {
+  width: 100%;
+  background: none;
+  border: none;
+  color: var(--accent-color);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+  text-align: center;
+}
+
+.markAllButton:hover {
+  background-color: rgba(var(--accent-color-rgb), 0.1);
+}
+
+/* Badge for unread notifications */
+.navButtonBadge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 18px;
+  height: 18px;
+  background-color: var(--accent-color);
+  color: white;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--background-primary);
+} 

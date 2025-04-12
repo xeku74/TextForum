@@ -1,0 +1,184 @@
+/* Global transition effects for the app */
+
+/* Main content transition */
+.app-content {
+  animation: fadeContentIn 0.6s ease-out;
+}
+
+@keyframes fadeContentIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Header transition */
+.header-animate {
+  animation: slideDownFade 0.5s ease-out;
+}
+
+@keyframes slideDownFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Feed content transition */
+.feed-animate {
+  animation: contentScaleIn 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes contentScaleIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Widget animation that stays in place */
+.widget-animate {
+  animation: justFadeIn 0.5s ease-out;
+}
+
+@keyframes justFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Stable feed item animation that doesn't cause layout shifts */
+.feed-item-stable {
+  transition: opacity 0.5s ease;
+}
+
+/* Staggered animation for feed items */
+.feed-item {
+  opacity: 0;
+  animation: feedItemAppear 0.5s ease-out forwards;
+}
+
+.feed-item:nth-child(1) { animation-delay: 0.1s; }
+.feed-item:nth-child(2) { animation-delay: 0.2s; }
+.feed-item:nth-child(3) { animation-delay: 0.3s; }
+.feed-item:nth-child(4) { animation-delay: 0.4s; }
+.feed-item:nth-child(5) { animation-delay: 0.5s; }
+.feed-item:nth-child(6) { animation-delay: 0.6s; }
+.feed-item:nth-child(7) { animation-delay: 0.7s; }
+.feed-item:nth-child(8) { animation-delay: 0.8s; }
+.feed-item:nth-child(9) { animation-delay: 0.9s; }
+.feed-item:nth-child(10) { animation-delay: 1.0s; }
+
+@keyframes feedItemAppear {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Page transition container */
+.page-transition {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Loading overlay */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--background-primary);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeOut 0.5s ease-in-out forwards;
+  animation-delay: 0.2s;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+/* Loading spinner */
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 3px solid rgba(var(--accent-color-rgb), 0.3);
+  border-radius: 50%;
+  border-top-color: var(--accent-color);
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Special animations for ExploreTab - prevents jumping */
+.explore-animate {
+  opacity: 0;
+  transform: translateY(0); /* Start at the top position (no jumping) */
+  animation: exploreAppear 0.5s ease-out forwards;
+}
+
+@keyframes exploreAppear {
+  from {
+    opacity: 0.4;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Exploration item staggered animation */
+.explore-item {
+  opacity: 0;
+  animation: exploreItemAppear 0.4s ease-out forwards;
+}
+
+.explore-item:nth-child(1) { animation-delay: 0.05s; }
+.explore-item:nth-child(2) { animation-delay: 0.1s; }
+.explore-item:nth-child(3) { animation-delay: 0.15s; }
+.explore-item:nth-child(4) { animation-delay: 0.2s; }
+.explore-item:nth-child(5) { animation-delay: 0.25s; }
+.explore-item:nth-child(6) { animation-delay: 0.3s; }
+.explore-item:nth-child(7) { animation-delay: 0.35s; }
+.explore-item:nth-child(8) { animation-delay: 0.4s; }
+
+@keyframes exploreItemAppear {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Special header for explore tab */
+.explore-header {
+  opacity: 0;
+  animation: fadeIn 0.4s ease-out forwards;
+  animation-delay: 0.05s;
+} 
