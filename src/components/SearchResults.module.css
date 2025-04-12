@@ -171,4 +171,43 @@
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-10px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* Mobile Responsive Styling */
+@media (max-width: 768px) {
+  .searchResultsContainer {
+    width: 100%;
+    left: 0;
+    top: 56px;
+    max-height: calc(100vh - 56px);
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .resultItem {
+    padding: 12px;
+  }
+
+  .resultTitle {
+    font-size: 14px;
+  }
+
+  .resultBody {
+    font-size: 13px;
+    max-height: 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .resultsSection {
+    padding: 10px;
+  }
+
+  .resultItem {
+    padding: 10px;
+  }
+
+  .suggestionsSection {
+    padding: 10px;
+  }
 } 

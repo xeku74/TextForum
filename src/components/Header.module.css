@@ -324,4 +324,71 @@
   stroke: currentColor;
   fill: none;
   opacity: 0.9;
+}
+
+/* Mobile Responsive Styling */
+@media (max-width: 768px) {
+  .header {
+    padding: 0 12px;
+    height: 56px;
+  }
+
+  .searchContainer {
+    width: 60%;
+    margin: 0 8px;
+  }
+
+  .searchInput {
+    padding: 8px 8px 8px 36px;
+    font-size: 13px;
+  }
+
+  .searchIcon {
+    left: 12px;
+  }
+
+  .clearSearchButton {
+    right: 8px;
+    width: 16px;
+    height: 16px;
+  }
+
+  .createButton {
+    padding: 8px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 0;
+  }
+
+  .createButton svg {
+    margin: 0;
+  }
+
+  .navButton {
+    width: 36px;
+    height: 36px;
+  }
+
+  .themeToggleButton {
+    width: 36px;
+    height: 36px;
+  }
+
+  .logo {
+    font-size: 18px;
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+  .navButtons {
+    gap: 6px;
+  }
+
+  .navButton, 
+  .themeToggleButton {
+    width: 32px;
+    height: 32px;
+  }
 } 

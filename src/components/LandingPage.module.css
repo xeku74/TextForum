@@ -220,6 +220,7 @@
   border-radius: 100%;
   transform: scale(1, 1) translate(-50%, -50%);
   transform-origin: 50% 50%;
+  pointer-events: none; /* Ensure this doesn't interfere with click events */
 }
 
 .primaryButton:active::after {
@@ -235,6 +236,18 @@
   100% {
     transform: scale(20, 20) translate(-50%, -50%);
     opacity: 0;
+  }
+}
+
+@media (pointer: coarse) {
+  /* Simplified animation for touch devices */
+  .primaryButton:active {
+    transform: scale(0.98);
+    opacity: 0.95;
+  }
+  
+  .primaryButton::after {
+    display: none; /* Disable the ripple effect on touch devices */
   }
 }
 
@@ -1441,8 +1454,9 @@
 @media (max-width: 768px) {
   .hero {
     flex-direction: column;
-    padding: 3rem 5%;
+    padding: 2rem 1rem;
     min-height: auto;
+    gap: 2rem;
   }
   
   .heroContent, .heroImage {
@@ -1450,142 +1464,110 @@
     padding-right: 0;
   }
   
-  .mockupFrame {
+  .heroTitle {
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  .heroSubtitle {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .heroCta {
+    justify-content: center;
     width: 100%;
   }
   
-  .heroTitle {
-    font-size: 2.5rem;
+  .primaryButton {
+    width: 100%;
+    max-width: 280px;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    z-index: 10;
+    position: relative;
   }
   
-  .nav {
-    display: none;
-  }
-  
-  .sectionTitle {
-    font-size: 2rem;
-  }
-  
-  .ctaTitle {
-    font-size: 2.2rem;
+  .mockupFrame {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
   }
   
   .header {
-    padding: 1rem 5%;
-  }
-  
-  .header::after {
-    content: '';
-    position: absolute;
-    right: 2rem;
-    top: 1.5rem;
-    width: 2rem;
-    height: 2px;
-    background-color: var(--landing-text);
+    padding: 1rem;
   }
   
   .featuresSection {
-    min-height: auto;
-    padding: 3rem 0;
+    padding: 2rem 1rem;
   }
   
   .featuresContainer {
-    padding: 3rem 2rem;
-    min-height: auto;
+    padding: 2rem 1rem;
   }
   
   .featuresHeading {
-    font-size: 2.5rem;
-    margin-bottom: 3rem;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
   }
   
   .communityHighlights {
     flex-direction: column;
+    gap: 1.5rem;
   }
   
   .highlightCard {
-    margin: 1rem 0;
-    padding: 3rem 2rem;
+    margin: 0;
+    padding: 2rem 1.5rem;
   }
   
-  .highlightIcon {
-    width: 90px;
-    height: 90px;
-    margin-bottom: 1.5rem;
-  }
-  
-  .highlightTitle {
-    font-size: 1.75rem;
-  }
-  
-  .highlightCard p {
-    font-size: 1.1rem;
+  .footerBottom {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
   }
 }
 
 @media (max-width: 480px) {
   .heroTitle {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
   
   .heroSubtitle {
     font-size: 1rem;
   }
   
+  .primaryButton {
+    width: 90%;
+    max-width: none;
+    padding: 0.9rem 1.5rem;
+    font-size: 1.05rem;
+    border-radius: 50px;
+  }
+  
   .mockupFrame {
-    height: 300px;
-    grid-template-columns: 1fr;
-    grid-template-rows: 50px 1fr;
-    grid-template-areas:
-      "header"
-      "feed";
+    height: 240px;
   }
   
   .mockupSidebar, .mockupWidget {
     display: none;
   }
   
-  .heroCta {
-    flex-direction: column;
-  }
-  
-  .primaryButton, .secondaryButton {
-    width: 100%;
-  }
-  
-  .featuresSection {
-    padding: 2rem 0;
-  }
-  
-  .featuresContainer {
-    padding: 2rem 1.5rem;
-  }
-  
   .featuresHeading {
-    font-size: 2rem;
-    margin-bottom: 2.5rem;
-  }
-  
-  .highlightCard {
-    padding: 2.5rem 1.5rem;
+    font-size: 1.8rem;
   }
   
   .highlightIcon {
-    width: 80px;
-    height: 80px;
-  }
-  
-  .highlightIcon svg {
-    width: 36px;
-    height: 36px;
+    width: 70px;
+    height: 70px;
   }
   
   .highlightTitle {
-    font-size: 1.5rem;
-  }
-  
-  .highlightCard p {
-    font-size: 1rem;
+    font-size: 1.4rem;
   }
 }
 
@@ -1620,4 +1602,70 @@
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3), 
               0 0 30px rgba(var(--landing-primary-rgb), 0.2);
   filter: drop-shadow(0 0 10px rgba(127, 0, 255, 0.15));
+}
+
+/* Fix for mobile button tap area */
+.heroCta .primaryButton {
+  position: relative;
+  z-index: 5;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (max-width: 768px) {
+  .heroCta .primaryButton {
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .heroCta .primaryButton {
+    min-height: 54px;
+    width: 80%;
+  }
+}
+
+/* Mobile-specific button styling */
+.mobileReady {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .mobileReady {
+    width: 220px;
+    padding: 14px 20px;
+    font-size: 16px;
+    border-radius: 50px;
+    background-color: var(--landing-primary);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    letter-spacing: 0.5px;
+  }
+  
+  /* Improve button hit area */
+  .mobileReady::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    z-index: -1;
+  }
+}
+
+@media (max-width: 480px) {
+  .mobileReady {
+    width: 90%;
+    max-width: 280px;
+  }
 } 

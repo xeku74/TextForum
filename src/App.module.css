@@ -152,4 +152,41 @@
   background-repeat: no-repeat;
   background-size: contain;
   opacity: 0.6;
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  .appContainer {
+    flex-direction: column;
+  }
+
+  .centerContainer {
+    width: 100%;
+    margin-left: 0;
+    border-left: none;
+    border-right: none;
+  }
+
+  .sidebarContainer {
+    display: none; /* Hide sidebar on mobile */
+  }
+
+  .widgetsContainer {
+    display: none; /* Hide widgets on mobile */
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+  .app {
+    padding-top: 56px; /* Reduce header height on small screens */
+  }
+
+  .appContainer {
+    min-height: calc(100vh - 56px);
+  }
+
+  .feedWrapper {
+    height: calc(100vh - 56px);
+  }
 } 

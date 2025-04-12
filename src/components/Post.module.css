@@ -298,4 +298,62 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+/* Mobile Responsive Styling */
+@media (max-width: 768px) {
+  .postContainer {
+    padding: 10px 12px;
+  }
+
+  .postTitle {
+    font-size: 14px;
+    line-height: 1.3;
+  }
+
+  .postBody {
+    font-size: 14px;
+    line-height: 1.3;
+  }
+
+  .postActions {
+    gap: 4px;
+  }
+
+  .actionButton {
+    padding: 3px;
+  }
+
+  .voteContainer .actionButton {
+    height: 28px;
+    width: 28px;
+  }
+
+  .actionLabel {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .postContainer {
+    padding: 8px 10px;
+  }
+
+  .postActions {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .voteContainer {
+    margin-right: 0;
+  }
+
+  .voteCount {
+    min-width: 16px;
+    font-size: 12px;
+  }
+
+  .actionButton {
+    width: auto;
+  }
 } 

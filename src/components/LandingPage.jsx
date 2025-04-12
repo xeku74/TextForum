@@ -23,8 +23,11 @@ const LandingPage = ({ onLogin }) => {
             </p>
             <div className={`${styles.heroCta} feed-item`}>
               <button 
-                className={styles.primaryButton}
+                className={`${styles.primaryButton} ${styles.mobileReady}`}
                 onClick={onLogin}
+                role="button"
+                tabIndex={0}
+                aria-label="Get started"
               >
                 Get started
               </button>

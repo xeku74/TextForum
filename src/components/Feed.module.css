@@ -94,4 +94,43 @@
   font-style: italic;
   background-color: var(--background-secondary);
   margin-top: 1px;
+}
+
+/* Mobile Responsive Styling */
+@media (max-width: 768px) {
+  .feedTitle {
+    font-size: 18px;
+    padding: 10px 16px;
+  }
+  
+  .searchContainer {
+    margin: 8px 12px;
+    width: calc(100% - 24px);
+  }
+  
+  .searchInput {
+    padding: 8px 8px 8px 32px;
+    font-size: 13px;
+  }
+  
+  .searchIcon {
+    left: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .feedTitle {
+    font-size: 16px;
+    padding: 8px 12px;
+  }
+  
+  .searchContainer {
+    margin: 6px 10px;
+    width: calc(100% - 20px);
+  }
+  
+  .noResults {
+    padding: 16px 12px;
+    font-size: 14px;
+  }
 } 

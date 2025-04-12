@@ -106,6 +106,8 @@ body:not(.light-theme):not(.dark-theme) {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  scrollbar-width: none !important; /* Firefox */
+  -ms-overflow-style: none !important; /* IE and Edge */
 }
 
 /* Apply transitions only to specific properties that need them */
@@ -196,3 +198,33 @@ button:focus-visible {
 /* @media (prefers-color-scheme: light) { */
   /* Override variables here if you want a light theme later */
 /* } */
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+*::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+}
+
+/* Additional Mobile Responsive Improvements */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+
+  button {
+    padding: 0.5em 1em;
+    font-size: 0.9em;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 13px;
+    min-width: 100%;
+  }
+
+  button {
+    padding: 0.4em 0.8em;
+    font-size: 0.85em;
+  }
+}
