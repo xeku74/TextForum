@@ -7,29 +7,7 @@ const ChatPopup = ({ isOpen, onClose }) => {
   const [isMobile, setIsMobile] = useState(false);
   const messagesEndRef = useRef(null);
   
-  // Check if we're on a mobile device
-  useEffect(() => {
-    const checkIfMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-    
-    // Check on mount
-    checkIfMobile();
-    
-    // Listen for resize events
-    window.addEventListener('resize', checkIfMobile);
-    
-    // Cleanup
-    return () => window.removeEventListener('resize', checkIfMobile);
-  }, []);
-  
-  // Auto-scroll to bottom of messages
-  useEffect(() => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
-  }, [activeChat, messages]);
-
+  // Define messages state first, before using it in useEffect
   const [chats, setChats] = useState([
     {
       id: 1,
@@ -93,10 +71,41 @@ const ChatPopup = ({ isOpen, onClose }) => {
       { id: 3, text: 'Did you see the latest announcement?', timestamp: 'Monday', isUser: true },
     ],
   });
+  
+  // Check if we're on a mobile device
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    // Check on mount
+    checkIfMobile();
+    
+    // Listen for resize events
+    window.addEventListener('resize', checkIfMobile);
+    
+    // Cleanup
+    return () => window.removeEventListener('resize', checkIfMobile);
+  }, []);
+  
+  // Auto-scroll to bottom of messages
+  useEffect(() => {
+    if (messagesEndRef.current && activeChat && messages[activeChat]) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [activeChat, messages, messagesEndRef]);
 
   // Handle selecting a chat
   const handleChatSelect = (chatId) => {
     setActiveChat(chatId);
+
+    // Initialize messages array if it doesn't exist for this chat
+    if (!messages[chatId]) {
+      setMessages(prevMessages => ({
+        ...prevMessages,
+        [chatId]: []
+      }));
+    }
 
     // Mark as read when selected
     setChats(chats.map(chat => 
@@ -118,35 +127,55 @@ const ChatPopup = ({ isOpen, onClose }) => {
   // Handle sending a message
   const handleSendMessage = (e) => {
     e.preventDefault();
-    if (!messageInput.trim() || !activeChat) return;
-
-    const currentTime = getCurrentTime();
     
-    // Create a new message object
-    const newMessage = {
-      id: Date.now(),
-      text: messageInput,
-      timestamp: currentTime,
-      isUser: true
-    };
+    // Make sure we have all required data
+    if (!messageInput.trim() || !activeChat || !messages || !messages[activeChat]) {
+      return;
+    }
 
-    // Update the messages state with the new message
-    setMessages(prevMessages => ({
-      ...prevMessages,
-      [activeChat]: [...prevMessages[activeChat], newMessage]
-    }));
+    try {
+      const currentTime = getCurrentTime();
+      
+      // Create a new message object
+      const newMessage = {
+        id: Date.now(),
+        text: messageInput,
+        timestamp: currentTime,
+        isUser: true
+      };
 
-    // Update the chat preview with the last message
-    setChats(prevChats => 
-      prevChats.map(chat => 
-        chat.id === activeChat 
-          ? { ...chat, lastMessage: messageInput, timestamp: currentTime } 
-          : chat
-      )
-    );
+      // Update the messages state with the new message
+      setMessages(prevMessages => {
+        // Safety check for the active chat
+        if (!prevMessages[activeChat]) {
+          // Initialize the chat if it doesn't exist
+          return {
+            ...prevMessages,
+            [activeChat]: [newMessage]
+          };
+        }
+        
+        return {
+          ...prevMessages,
+          [activeChat]: [...prevMessages[activeChat], newMessage]
+        };
+      });
 
-    // Clear the input
-    setMessageInput('');
+      // Update the chat preview with the last message
+      setChats(prevChats => 
+        prevChats.map(chat => 
+          chat.id === activeChat 
+            ? { ...chat, lastMessage: messageInput, timestamp: currentTime } 
+            : chat
+        )
+      );
+
+      // Clear the input
+      setMessageInput('');
+    } catch (error) {
+      console.error("Error sending message:", error);
+      // Could add user-facing error feedback here
+    }
   };
 
   // Get the first letter of a username for avatar placeholder
@@ -173,7 +202,11 @@ const ChatPopup = ({ isOpen, onClose }) => {
     <div className={styles.chatPopupOverlay} onClick={onClose}>
       <div className={styles.chatPopupContainer} onClick={(e) => e.stopPropagation()}>
         <div className={styles.chatHeader}>
-          <h3>{activeChat && isMobile ? chats.find(chat => chat.id === activeChat)?.username : 'Messages'}</h3>
+          <h3>
+            {activeChat && isMobile && chats.find(chat => chat.id === activeChat) 
+              ? chats.find(chat => chat.id === activeChat).username 
+              : 'Messages'}
+          </h3>
           <button className={styles.closeButton} onClick={onClose}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -211,38 +244,52 @@ const ChatPopup = ({ isOpen, onClose }) => {
           {/* Chat Messages - conditionally shown on mobile */}
           {showMessages && (
             <div className={styles.chatMessages}>
-              {activeChat ? (
+              {activeChat && messages && messages[activeChat] ? (
                 <>
                   <div 
                     className={styles.messagesHeader}
                     onClick={isMobile ? handleBackToList : undefined}
                   >
-                    <div className={styles.chatAvatar}>
-                      <div className={styles.avatarPlaceholder}>
-                        {getInitial(chats.find(chat => chat.id === activeChat)?.username || '')}
-                      </div>
-                    </div>
-                    <div className={styles.chatUser}>
-                      {chats.find(chat => chat.id === activeChat)?.username}
-                    </div>
+                    {/* Safely find the active chat user */}
+                    {(() => {
+                      const activeUser = chats.find(chat => chat.id === activeChat);
+                      return (
+                        <>
+                          <div className={styles.chatAvatar}>
+                            <div className={styles.avatarPlaceholder}>
+                              {activeUser ? getInitial(activeUser.username) : '?'}
+                            </div>
+                          </div>
+                          <div className={styles.chatUser}>
+                            {activeUser ? activeUser.username : 'Unknown User'}
+                          </div>
+                        </>
+                      );
+                    })()}
                   </div>
                   <div className={styles.messagesList}>
-                    {messages[activeChat].map((message) => (
-                      <div
-                        key={message.id}
-                        className={`${styles.messageItem} ${message.isUser ? styles.myMessage : styles.theirMessage}`}
-                      >
-                        <div className={styles.messageAvatar}>
-                          <div className={styles.avatarPlaceholder}>
-                            {message.isUser ? 'Me' : getInitial(chats.find(chat => chat.id === activeChat)?.username || '')}
+                    {messages[activeChat].map((message) => {
+                      // Find the active chat user safely
+                      const activeUser = chats.find(chat => chat.id === activeChat);
+                      const userInitial = activeUser ? getInitial(activeUser.username) : '?';
+                      
+                      return (
+                        <div
+                          key={message.id}
+                          className={`${styles.messageItem} ${message.isUser ? styles.myMessage : styles.theirMessage}`}
+                        >
+                          <div className={styles.messageAvatar}>
+                            <div className={styles.avatarPlaceholder}>
+                              {message.isUser ? 'Me' : userInitial}
+                            </div>
+                          </div>
+                          <div className={styles.messageContent}>
+                            <div className={styles.messageText}>{message.text}</div>
+                            <div className={styles.messageTime}>{message.timestamp}</div>
                           </div>
                         </div>
-                        <div className={styles.messageContent}>
-                          <div className={styles.messageText}>{message.text}</div>
-                          <div className={styles.messageTime}>{message.timestamp}</div>
-                        </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                     <div ref={messagesEndRef} />
                   </div>
                   <form className={styles.messageInput} onSubmit={handleSendMessage}>
