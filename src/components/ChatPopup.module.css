@@ -339,31 +339,172 @@
 @media (max-width: 768px) {
   .chatPopupContainer {
     width: 100%;
-    height: 70vh;
+    height: 85vh;
     right: 0;
+    border-radius: 12px 12px 0 0;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  .chatHeader {
+    padding: 12px 16px;
+    border-bottom: 2px solid var(--border-color);
+  }
+  
+  .chatHeader h3 {
+    font-size: 18px;
+  }
+
+  .closeButton {
+    width: 36px;
+    height: 36px;
+    margin-right: -8px;
   }
 
   .chatContent {
     flex-direction: column;
+    position: relative;
+    height: calc(100% - 50px);
   }
 
   .chatList {
     width: 100%;
     height: auto;
-    max-height: 40%;
+    max-height: 38%;
     border-right: none;
     border-bottom: 1px solid var(--border-color);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .chatItem {
+    padding: 12px 16px;
+  }
+  
+  .chatAvatar {
+    width: 42px;
+    height: 42px;
+  }
+  
+  .messagesHeader {
+    position: relative;
+    padding: 12px 16px;
+  }
+  
+  .messagesHeader::before {
+    content: '←';
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    font-weight: bold;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--foreground-primary);
+    border-radius: 50%;
+    background-color: var(--background-tertiary);
+    cursor: pointer;
+    z-index: 2;
+  }
+  
+  .messagesHeader .chatAvatar {
+    margin-left: 30px;
   }
 
   .messagesList {
-    padding: 10px;
+    padding: 12px;
+    -webkit-overflow-scrolling: touch;
   }
 
   .messageItem {
-    margin-bottom: 10px;
+    margin-bottom: 12px;
   }
 
   .messageContent {
+    max-width: 80%;
+    padding: 10px 14px;
+  }
+  
+  .messageText {
+    font-size: 15px;
+  }
+  
+  .messageTime {
+    font-size: 11px;
+    margin-top: 4px;
+  }
+  
+  .messageInput {
+    padding: 10px;
+    border-top: 1px solid var(--border-color);
+  }
+  
+  .messageInput input {
+    padding: 12px 14px;
+    border-radius: 24px;
+    font-size: 15px;
+  }
+  
+  .sendButton {
+    width: 42px;
+    height: 42px;
+    margin-left: 8px;
+  }
+  
+  .noActiveChat {
+    padding: 20px;
+    font-size: 15px;
+  }
+}
+
+/* Additional media query for extra small screens */
+@media (max-width: 480px) {
+  .chatPopupContainer {
+    height: 90vh;
+    bottom: 0;
+  }
+  
+  .chatList {
+    max-height: 40%; 
+  }
+  
+  .chatItem {
+    padding: 10px 14px;
+  }
+  
+  .chatAvatar {
+    width: 38px;
+    height: 38px;
+    margin-right: 10px;
+  }
+  
+  .chatLastMessage {
+    max-width: 160px;
+  }
+  
+  .messageContent {
     max-width: 85%;
+    padding: 8px 12px;
+  }
+  
+  .messageInput {
+    padding: 8px;
+  }
+  
+  .chatMeta {
+    min-width: 50px;
+  }
+  
+  .messageInput input {
+    padding: 10px 12px;
+    font-size: 14px;
+  }
+  
+  .sendButton {
+    width: 38px;
+    height: 38px;
   }
 }

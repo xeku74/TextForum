@@ -1,9 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styles from './ChatPopup.module.css';
 
 const ChatPopup = ({ isOpen, onClose }) => {
   const [activeChat, setActiveChat] = useState(null);
   const [messageInput, setMessageInput] = useState('');
+  const [isMobile, setIsMobile] = useState(false);
+  const messagesEndRef = useRef(null);
+  
+  // Check if we're on a mobile device
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    // Check on mount
+    checkIfMobile();
+    
+    // Listen for resize events
+    window.addEventListener('resize', checkIfMobile);
+    
+    // Cleanup
+    return () => window.removeEventListener('resize', checkIfMobile);
+  }, []);
+  
+  // Auto-scroll to bottom of messages
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [activeChat, messages]);
+
   const [chats, setChats] = useState([
     {
       id: 1,
@@ -128,13 +154,26 @@ const ChatPopup = ({ isOpen, onClose }) => {
     return username.charAt(0).toUpperCase();
   };
 
+  // Handle going back to chat list on mobile
+  const handleBackToList = (e) => {
+    e.stopPropagation(); // Prevent event bubbling
+    setActiveChat(null);
+  };
+
   if (!isOpen) return null;
+
+  // Determine if we should show chat list on mobile
+  // On mobile: only show chat list if no active chat is selected
+  const showChatList = !isMobile || (isMobile && !activeChat);
+  
+  // On mobile: only show messages if an active chat is selected
+  const showMessages = !isMobile || (isMobile && activeChat);
 
   return (
     <div className={styles.chatPopupOverlay} onClick={onClose}>
       <div className={styles.chatPopupContainer} onClick={(e) => e.stopPropagation()}>
         <div className={styles.chatHeader}>
-          <h3>Messages</h3>
+          <h3>{activeChat && isMobile ? chats.find(chat => chat.id === activeChat)?.username : 'Messages'}</h3>
           <button className={styles.closeButton} onClick={onClose}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -142,92 +181,100 @@ const ChatPopup = ({ isOpen, onClose }) => {
           </button>
         </div>
         <div className={styles.chatContent}>
-          {/* Chat List */}
-          <div className={styles.chatList}>
-            {chats.map((chat) => (
-              <div
-                key={chat.id}
-                className={`${styles.chatItem} ${activeChat === chat.id ? styles.active : ''} ${chat.unread ? styles.unread : ''}`}
-                onClick={() => handleChatSelect(chat.id)}
-              >
-                <div className={styles.chatAvatar}>
-                  <div className={styles.avatarPlaceholder}>
-                    {getInitial(chat.username)}
-                  </div>
-                </div>
-                <div className={styles.chatInfo}>
-                  <div className={styles.chatUser}>{chat.username}</div>
-                  <div className={styles.chatLastMessage}>{chat.lastMessage}</div>
-                </div>
-                <div className={styles.chatMeta}>
-                  <div className={styles.chatTime}>{chat.timestamp}</div>
-                  {chat.unread && <div className={styles.unreadIndicator}></div>}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Chat Messages */}
-          <div className={styles.chatMessages}>
-            {activeChat ? (
-              <>
-                <div className={styles.messagesHeader}>
+          {/* Chat List - conditionally shown on mobile */}
+          {showChatList && (
+            <div className={styles.chatList}>
+              {chats.map((chat) => (
+                <div
+                  key={chat.id}
+                  className={`${styles.chatItem} ${activeChat === chat.id ? styles.active : ''} ${chat.unread ? styles.unread : ''}`}
+                  onClick={() => handleChatSelect(chat.id)}
+                >
                   <div className={styles.chatAvatar}>
                     <div className={styles.avatarPlaceholder}>
-                      {getInitial(chats.find(chat => chat.id === activeChat)?.username || '')}
+                      {getInitial(chat.username)}
                     </div>
                   </div>
-                  <div className={styles.chatUser}>
-                    {chats.find(chat => chat.id === activeChat)?.username}
+                  <div className={styles.chatInfo}>
+                    <div className={styles.chatUser}>{chat.username}</div>
+                    <div className={styles.chatLastMessage}>{chat.lastMessage}</div>
+                  </div>
+                  <div className={styles.chatMeta}>
+                    <div className={styles.chatTime}>{chat.timestamp}</div>
+                    {chat.unread && <div className={styles.unreadIndicator}></div>}
                   </div>
                 </div>
-                <div className={styles.messagesList}>
-                  {messages[activeChat].map((message) => (
-                    <div
-                      key={message.id}
-                      className={`${styles.messageItem} ${message.isUser ? styles.myMessage : styles.theirMessage}`}
-                    >
-                      <div className={styles.messageAvatar}>
-                        <div className={styles.avatarPlaceholder}>
-                          {message.isUser ? 'Me' : getInitial(chats.find(chat => chat.id === activeChat)?.username || '')}
+              ))}
+            </div>
+          )}
+
+          {/* Chat Messages - conditionally shown on mobile */}
+          {showMessages && (
+            <div className={styles.chatMessages}>
+              {activeChat ? (
+                <>
+                  <div 
+                    className={styles.messagesHeader}
+                    onClick={isMobile ? handleBackToList : undefined}
+                  >
+                    <div className={styles.chatAvatar}>
+                      <div className={styles.avatarPlaceholder}>
+                        {getInitial(chats.find(chat => chat.id === activeChat)?.username || '')}
+                      </div>
+                    </div>
+                    <div className={styles.chatUser}>
+                      {chats.find(chat => chat.id === activeChat)?.username}
+                    </div>
+                  </div>
+                  <div className={styles.messagesList}>
+                    {messages[activeChat].map((message) => (
+                      <div
+                        key={message.id}
+                        className={`${styles.messageItem} ${message.isUser ? styles.myMessage : styles.theirMessage}`}
+                      >
+                        <div className={styles.messageAvatar}>
+                          <div className={styles.avatarPlaceholder}>
+                            {message.isUser ? 'Me' : getInitial(chats.find(chat => chat.id === activeChat)?.username || '')}
+                          </div>
+                        </div>
+                        <div className={styles.messageContent}>
+                          <div className={styles.messageText}>{message.text}</div>
+                          <div className={styles.messageTime}>{message.timestamp}</div>
                         </div>
                       </div>
-                      <div className={styles.messageContent}>
-                        <div className={styles.messageText}>{message.text}</div>
-                        <div className={styles.messageTime}>{message.timestamp}</div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                <form className={styles.messageInput} onSubmit={handleSendMessage}>
-                  <input
-                    type="text"
-                    placeholder="Type a message..."
-                    value={messageInput}
-                    onChange={(e) => setMessageInput(e.target.value)}
-                  />
-                  <button
-                    type="submit"
-                    className={styles.sendButton}
-                    disabled={!messageInput.trim()}
-                  >
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M22 2L11 13M22 2L15 22L11 13M11 13L2 9L22 2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    ))}
+                    <div ref={messagesEndRef} />
+                  </div>
+                  <form className={styles.messageInput} onSubmit={handleSendMessage}>
+                    <input
+                      type="text"
+                      placeholder="Type a message..."
+                      value={messageInput}
+                      onChange={(e) => setMessageInput(e.target.value)}
+                    />
+                    <button
+                      type="submit"
+                      className={styles.sendButton}
+                      disabled={!messageInput.trim()}
+                    >
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M22 2L11 13M22 2L15 22L11 13M11 13L2 9L22 2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </button>
+                  </form>
+                </>
+              ) : (
+                <div className={styles.noActiveChat}>
+                  <div className={styles.noActiveChatIcon}>
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M8 12H16M8 8H12M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 13.1971 3.23454 14.3397 3.65962 15.3825C3.73977 15.574 3.78938 15.8 3.78938 16.0177C3.78938 16.4978 3.63414 16.9972 3.33021 17.3938C2.63606 18.2961 2.95515 19.5516 3.95923 19.9186C5.93537 20.6669 8.41259 21 12 21Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
-                  </button>
-                </form>
-              </>
-            ) : (
-              <div className={styles.noActiveChat}>
-                <div className={styles.noActiveChatIcon}>
-                  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M8 12H16M8 8H12M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 13.1971 3.23454 14.3397 3.65962 15.3825C3.73977 15.574 3.78938 15.8 3.78938 16.0177C3.78938 16.4978 3.63414 16.9972 3.33021 17.3938C2.63606 18.2961 2.95515 19.5516 3.95923 19.9186C5.93537 20.6669 8.41259 21 12 21Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
+                  </div>
+                  <div>Select a conversation to start messaging</div>
                 </div>
-                <div>Select a conversation to start messaging</div>
-              </div>
-            )}
-          </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>
