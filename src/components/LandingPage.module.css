@@ -35,7 +35,43 @@
   top: 0;
   background-color: var(--landing-background);
   z-index: 100;
-  border-bottom: 1px solid var(--landing-border);
+  border-bottom: none;
+  box-shadow: 0 4px 6px -6px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    #00ccff,
+    #ff00dd,
+    #00ff88,
+    #ffca00,
+    #00ccff
+  );
+  background-size: 300% 300%;
+  animation: spectrumFlow 8s linear infinite;
+  opacity: 0.6;
+  filter: blur(1px);
+  transform: scaleY(0.5);
+}
+
+@keyframes spectrumFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .logoContainer {
