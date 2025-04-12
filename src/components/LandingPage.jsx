@@ -1,8 +1,37 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './LandingPage.module.css';
 import '../styles/transitions.css'; // Import transitions
 
 const LandingPage = ({ onLogin }) => {
+  // Add touch event handling for mobile
+  useEffect(() => {
+    const button = document.querySelector(`.${styles.primaryButton}`);
+    
+    // Add event listeners for mobile touch events
+    if (button) {
+      // Prevent default touch behavior
+      const preventDefaultTouch = (e) => {
+        e.preventDefault();
+      };
+      
+      // Handle click for mobile
+      const handleMobileClick = () => {
+        if (onLogin) {
+          onLogin();
+        }
+      };
+      
+      button.addEventListener('touchstart', preventDefaultTouch, { passive: false });
+      button.addEventListener('touchend', handleMobileClick);
+      
+      // Clean up
+      return () => {
+        button.removeEventListener('touchstart', preventDefaultTouch);
+        button.removeEventListener('touchend', handleMobileClick);
+      };
+    }
+  }, [onLogin]);
+  
   return (
     <div className={styles.landingPage}>
       <header className={`${styles.header} header-animate`}>
@@ -28,6 +57,7 @@ const LandingPage = ({ onLogin }) => {
                 role="button"
                 tabIndex={0}
                 aria-label="Get started"
+                id="getStartedButton"
               >
                 Get started
               </button>

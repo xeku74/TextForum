@@ -273,19 +273,21 @@
 /* Mockup Styles */
 .mockupContainer {
   width: 100%;
-  max-width: 750px;
+  max-width: 600px;
   perspective: 1000px;
   position: relative;
   z-index: 2;
+  margin: 0 auto;
+  overflow: hidden;
 }
 
 .mockupContainer::after {
   content: '';
   position: absolute;
-  top: -80px;
-  left: -80px;
-  right: -80px;
-  bottom: -80px;
+  top: -40px;
+  left: -40px;
+  right: -40px;
+  bottom: -40px;
   background: radial-gradient(circle at center, 
     rgba(var(--landing-primary-rgb), 0.3) 0%, 
     rgba(var(--landing-primary-rgb), 0.1) 35%,
@@ -315,13 +317,13 @@
 
 @keyframes floatAnimation {
   0% {
-    transform: perspective(1200px) rotateY(-10deg) rotateX(5deg) translateZ(20px) translateX(15px);
+    transform: perspective(1200px) rotateY(-5deg) rotateX(3deg) translateZ(0) translateX(0);
   }
   50% {
-    transform: perspective(1200px) rotateY(-10deg) rotateX(5deg) translateZ(40px) translateX(15px);
+    transform: perspective(1200px) rotateY(-5deg) rotateX(3deg) translateZ(15px) translateX(0);
   }
   100% {
-    transform: perspective(1200px) rotateY(-10deg) rotateX(5deg) translateZ(20px) translateX(15px);
+    transform: perspective(1200px) rotateY(-5deg) rotateX(3deg) translateZ(0) translateX(0);
   }
 }
 
@@ -351,10 +353,10 @@
 
 .mockupFrame {
   width: 100%;
-  max-width: 800px;
-  height: 500px;
+  max-width: 600px;
+  height: 400px;
   display: grid;
-  grid-template-columns: 200px 1fr 250px;
+  grid-template-columns: 150px 1fr 180px;
   grid-template-areas:
     "header header header"
     "sidebar feed widget";
@@ -363,7 +365,7 @@
   padding: 1rem;
   gap: 1rem;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-  transform: perspective(1200px) rotateY(-10deg) rotateX(5deg) translateZ(20px) translateX(15px);
+  transform: perspective(1200px) rotateY(-5deg) rotateX(3deg) translateZ(10px) translateX(0);
   transform-style: preserve-3d;
   transform-origin: center center;
   animation: floatAnimation 8s ease-in-out infinite;
@@ -372,6 +374,7 @@
   transition: transform 1.5s cubic-bezier(0.19, 1, 0.22, 1), 
               box-shadow 1.5s cubic-bezier(0.19, 1, 0.22, 1);
   will-change: transform, box-shadow;
+  margin: 0 auto;
 }
 
 .mockupFrame::before {
@@ -1530,6 +1533,25 @@
     gap: 1rem;
     text-align: center;
   }
+  
+  .heroImage {
+    width: 100%;
+    padding: 0 20px;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+  }
+  
+  .mockupContainer {
+    max-width: 450px;
+    transform: scale(0.9);
+  }
+  
+  .mockupFrame {
+    max-width: 450px;
+    height: 320px;
+    transform: perspective(800px) rotateY(-3deg) rotateX(2deg) translateZ(0) translateX(0);
+  }
 }
 
 @media (max-width: 480px) {
@@ -1568,6 +1590,28 @@
   
   .highlightTitle {
     font-size: 1.4rem;
+  }
+  
+  .heroImage {
+    padding: 0 10px;
+    margin-bottom: 20px;
+  }
+  
+  .mockupContainer {
+    max-width: 320px;
+    transform: scale(0.85);
+  }
+  
+  .mockupFrame {
+    max-width: 320px;
+    height: 240px;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+      "header"
+      "feed";
+    padding: 8px;
+    gap: 8px;
   }
 }
 
@@ -1615,21 +1659,42 @@
   -ms-user-select: none;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
+  outline: none; /* Remove outline focus ring */
+  transition: all 0.3s ease;
+}
+
+/* Add a specific style for active state on mobile */
+.primaryButton:active {
+  transform: scale(0.98);
+  opacity: 0.95;
 }
 
 @media (max-width: 768px) {
   .heroCta .primaryButton {
-    min-height: 50px;
+    min-height: 56px;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 15px 30px;
+    font-size: 18px;
+    border-radius: 50px;
+    margin: 0 auto;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Add a focus ring for accessibility */
+  .heroCta .primaryButton:focus-visible {
+    box-shadow: 0 0 0 3px rgba(var(--landing-primary-rgb), 0.5);
   }
 }
 
 @media (max-width: 480px) {
   .heroCta .primaryButton {
-    min-height: 54px;
-    width: 80%;
+    min-height: 60px;
+    width: 85%;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
   }
 }
 
@@ -1642,23 +1707,24 @@
 
 @media (max-width: 768px) {
   .mobileReady {
-    width: 220px;
-    padding: 14px 20px;
-    font-size: 16px;
+    width: 250px;
+    padding: 16px 24px;
+    font-size: 18px;
     border-radius: 50px;
     background-color: var(--landing-primary);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
     letter-spacing: 0.5px;
+    border: none;
   }
   
-  /* Improve button hit area */
+  /* Improve button hit area with a pseudo-element */
   .mobileReady::before {
     content: '';
     position: absolute;
-    top: -10px;
-    left: -10px;
-    right: -10px;
-    bottom: -10px;
+    top: -15px;
+    left: -15px;
+    right: -15px;
+    bottom: -15px;
     z-index: -1;
   }
 }
@@ -1666,6 +1732,7 @@
 @media (max-width: 480px) {
   .mobileReady {
     width: 90%;
-    max-width: 280px;
+    max-width: 320px;
+    padding: 16px 24px;
   }
 } 

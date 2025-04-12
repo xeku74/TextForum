@@ -1,0 +1,3 @@
+warning: in the working copy of 'src/components/LandingPage.module.css', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/components/ProfileDropdown.jsx', LF will be replaced by CRLF the next time Git touches it
+M	src/components/LandingPage.module.css
