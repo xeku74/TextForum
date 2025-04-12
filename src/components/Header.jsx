@@ -398,11 +398,12 @@ const Header = ({ onNewPost, posts, users, communities, onSearch, searchQuery })
           className={styles.createButton}
           onClick={toggleCreatePostModal}
           aria-label="Create Post"
+          title="Create a new post"
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={styles.plusIcon}>
             <path d="M12 4V20M4 12L20 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
-          <span>Create</span>
+          <span className={styles.createButtonText}>Create</span>
         </button>
         
         {/* Profile Button */}
