@@ -227,7 +227,7 @@
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background-color: #2c2c2c;
+  background-color: var(--background-tertiary, #2c2c2c);
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23666'%3E%3Cpath d='M12 12C14.2091 12 16 10.2091 16 8C16 5.79086 14.2091 4 12 4C9.79086 4 8 5.79086 8 8C8 10.2091 9.79086 12 12 12ZM12 21C16.4183 21 20 18.7614 20 16C20 13.2386 16.4183 11 12 11C7.58172 11 4 13.2386 4 16C4 18.7614 7.58172 21 12 21Z'/%3E%3C/svg%3E");
   background-size: 60% 60%;
   background-position: center;
@@ -450,6 +450,19 @@
 
   .createButtonText {
     display: none;
+  }
+
+  .avatar {
+    background-color: var(--background-tertiary);
+  }
+  
+  .profileButton {
+    margin-left: 5px;
+  }
+  
+  .avatarBorder {
+    background: linear-gradient(145deg, #3498db, #9b59b6);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   }
 }
 
