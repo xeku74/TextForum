@@ -82,6 +82,7 @@
   cursor: pointer;
   opacity: 0.8;
   transition: all 0.2s ease;
+  aspect-ratio: 1/1;
 }
 
 .clearSearchButton:hover {
@@ -351,6 +352,9 @@
     right: 8px;
     width: 16px;
     height: 16px;
+    aspect-ratio: 1/1;
+    padding: 0;
+    font-size: 9px;
   }
 
   .createButton {
