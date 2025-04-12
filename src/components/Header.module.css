@@ -71,6 +71,10 @@
   transform: translateY(-50%);
   width: 18px;
   height: 18px;
+  min-width: 18px;
+  min-height: 18px;
+  max-width: 18px;
+  max-height: 18px;
   background-color: var(--foreground-secondary);
   color: var(--background-primary);
   border-radius: 50%;
@@ -82,7 +86,9 @@
   cursor: pointer;
   opacity: 0.8;
   transition: all 0.2s ease;
-  aspect-ratio: 1/1;
+  padding: 0;
+  overflow: hidden;
+  box-sizing: content-box;
 }
 
 .clearSearchButton:hover {
@@ -352,7 +358,10 @@
     right: 8px;
     width: 16px;
     height: 16px;
-    aspect-ratio: 1/1;
+    min-width: 16px;
+    min-height: 16px;
+    max-width: 16px;
+    max-height: 16px;
     padding: 0;
     font-size: 9px;
   }

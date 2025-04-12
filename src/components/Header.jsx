@@ -306,7 +306,17 @@ const Header = ({ onNewPost, posts, users, communities, onSearch, searchQuery })
             onClick={clearSearch}
             aria-label="Clear search"
           >
-            <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', width: '100%' }}>✕</span>
+            <span style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'center', 
+              height: '100%', 
+              width: '100%',
+              lineHeight: 1,
+              fontSize: '10px',
+              fontWeight: 'bold',
+              transform: 'translateY(-1px)'
+            }}>×</span>
           </button>
         )}
         
