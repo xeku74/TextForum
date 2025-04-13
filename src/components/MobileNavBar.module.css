@@ -92,8 +92,37 @@
     display: flex;
   }
   
+  /* Fix create button alignment for mobile */
+  .createButton {
+    margin-top: 0; /* Remove the negative margin to align with other buttons */
+  }
+  
+  /* Adjust create icon wrapper size for mobile */
+  .createIconWrapper {
+    width: 32px;
+    height: 32px;
+  }
+  
   /* Add padding to the bottom of page content to prevent overlap with the nav bar */
   :global(.app) {
     padding-bottom: 60px;
+  }
+}
+
+/* Extra adjustments for smaller mobile screens */
+@media (max-width: 480px) {
+  .createIconWrapper {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .createIconWrapper svg {
+    width: 14px;
+    height: 14px;
+  }
+  
+  .iconWrapper svg {
+    width: 18px;
+    height: 18px;
   }
 } 

@@ -193,6 +193,9 @@
   padding: 0;
   transition: all 0.2s ease;
   margin-left: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .avatar {
@@ -221,16 +224,17 @@
 }
 
 .avatarBorder {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  position: relative;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   background: linear-gradient(145deg, var(--accent-color), #9b59b6);
   padding: 2px;
   transition: all 0.2s ease;
   opacity: 0.8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .profileButton:hover {
@@ -479,6 +483,14 @@
   .avatarBorder {
     background: linear-gradient(145deg, #3498db, #9b59b6);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: auto;
+    height: auto;
+    display: block;
   }
 }
 
@@ -507,5 +519,20 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+  }
+  
+  /* Center profile icon for mobile */
+  .profileButton {
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .avatarBorder {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 } 
