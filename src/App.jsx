@@ -7,6 +7,9 @@ import TrendingWidget from './components/TrendingWidget';
 import LandingPage from './components/LandingPage';
 import CustomFeedView from './components/CustomFeedView';
 import CommunityView from './components/CommunityView';
+import MobileNavBar from './components/MobileNavBar';
+import SearchResults from './components/SearchResults';
+import CreatePostModal from './components/CreatePostModal';
 // import Widgets from './components/Widgets'; // Placeholder for later
 import { ThemeProvider } from './context/ThemeContext';
 import styles from './App.module.css'; // We'll create this CSS module next
@@ -18,6 +21,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [selectedFeed, setSelectedFeed] = useState(null);
   const [selectedCommunity, setSelectedCommunity] = useState(null);
+  const [showCreatePostModal, setShowCreatePostModal] = useState(false);
   const [posts, setPosts] = useState([
     { 
       id: 1, 
@@ -548,6 +552,14 @@ function App() {
     }
   };
 
+  const handlePostUpdate = (updatedPost) => {
+    setPosts(prevPosts => 
+      prevPosts.map(post => 
+        post.id === updatedPost.id ? updatedPost : post
+      )
+    );
+  };
+
   // Handle search query
   const handleSearch = (query) => {
     setSearchQuery(query);
@@ -573,14 +585,14 @@ function App() {
   const handleFeedSelect = (feed) => {
     setSelectedFeed(feed);
     setSelectedCommunity(null);
-    setActiveTab('custom-feed');
+    setActiveTab('feed');
   };
 
   // Function to handle community selection
   const handleCommunitySelect = (community) => {
     setSelectedCommunity(community);
     setSelectedFeed(null);
-    setActiveTab('community');
+    setActiveTab('feed');
   };
 
   // Render landing page if not logged in
@@ -595,22 +607,24 @@ function App() {
   // Otherwise render the main app
   return (
     <ThemeProvider>
-      {!isLoggedIn ? (
-        <LandingPage onLogin={handleLogin} />
-      ) : (
-        <div className={styles.app}>
-          <Header 
-            onNewPost={handleNewPost}
-            posts={posts}
-            onSearch={handleSearch}
-            searchQuery={searchQuery}
-          />
-          <div className={`${styles.appContainer} app-content`}>
-            {/* Sidebar */}
+      <div className={styles.app}>
+        <Header 
+          searchQuery={searchQuery} 
+          onSearchChange={handleSearch} 
+          onLogin={handleLogin} 
+          isLoggedIn={isLoggedIn}
+          activeTab={activeTab}
+          onTabChange={handleTabChange}
+        />
+        
+        {!isLoggedIn ? (
+          <LandingPage onLogin={handleLogin} />
+        ) : (
+          <div className={styles.appContainer}>
             <div className={styles.sidebarContainer}>
               <Sidebar 
-                activeTab={activeTab} 
-                setActiveTab={handleTabChange}
+                activeTab={activeTab}
+                onTabChange={handleTabChange}
                 onFeedSelect={handleFeedSelect}
                 onCommunitySelect={handleCommunitySelect}
                 selectedFeed={selectedFeed}
@@ -618,39 +632,74 @@ function App() {
               />
             </div>
             
-            {/* Center Content */}
             <div className={styles.centerContainer}>
               <div className={styles.feedWrapper}>
-                {activeTab === 'feed' && (
-                  <>
-                    {searchQuery && (
-                      <div className={styles.searchMessage}>
-                        Showing results for "{searchQuery}"
-                      </div>
+                {activeTab === 'feed' && !selectedFeed && !selectedCommunity && (
+                  <Feed 
+                    posts={posts} 
+                    onPostUpdate={handlePostUpdate} 
+                    onNewPost={handleNewPost} 
+                    isLoggedIn={isLoggedIn}
+                  />
+                )}
+                
+                {activeTab === 'explore' && (
+                  <ExploreTab 
+                    onSelectCommunity={handleCommunitySelect}
+                  />
+                )}
+                
+                {activeTab === 'feed' && selectedFeed && (
+                  <CustomFeedView 
+                    feed={selectedFeed} 
+                    onBack={() => setSelectedFeed(null)}
+                  />
+                )}
+                
+                {activeTab === 'feed' && selectedCommunity && (
+                  <CommunityView 
+                    community={selectedCommunity} 
+                    onBack={() => setSelectedCommunity(null)}
+                  />
+                )}
+                
+                {activeTab === 'search' && searchQuery && (
+                  <SearchResults 
+                    searchQuery={searchQuery} 
+                    posts={posts.filter(post => 
+                      post.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                      post.body.toLowerCase().includes(searchQuery.toLowerCase())
                     )}
-                    <Feed 
-                      posts={filteredPosts}
-                      isSearching={!!searchQuery}
-                    />
-                  </>
-                )}
-                {activeTab === 'explore' && <ExploreTab />}
-                {activeTab === 'custom-feed' && selectedFeed && (
-                  <CustomFeedView feed={selectedFeed} />
-                )}
-                {activeTab === 'community' && selectedCommunity && (
-                  <CommunityView community={selectedCommunity} />
+                  />
                 )}
               </div>
             </div>
             
-            {/* Widgets (right sidebar) */}
             <div className={styles.widgetsContainer}>
               <TrendingWidget />
+              {/* More widgets can be added here */}
             </div>
           </div>
-        </div>
-      )}
+        )}
+        
+        {/* Mobile Navigation Bar */}
+        {isLoggedIn && (
+          <MobileNavBar 
+            activeTab={activeTab} 
+            onTabChange={handleTabChange}
+            onCreatePost={() => setShowCreatePostModal(true)}
+          />
+        )}
+        
+        {/* Modals */}
+        {showCreatePostModal && (
+          <CreatePostModal 
+            isOpen={true}
+            onClose={() => setShowCreatePostModal(false)} 
+            onNewPost={handleNewPost}
+          />
+        )}
+      </div>
     </ThemeProvider>
   );
 }

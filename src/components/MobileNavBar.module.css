@@ -1,0 +1,99 @@
+.mobileNavBar {
+  display: none; /* Hidden by default */
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  background-color: var(--background-primary);
+  border-top: 1px solid var(--border-color);
+  z-index: 1000;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0 10px;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.navButton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  padding: 8px 0;
+  width: 33.333%;
+  cursor: pointer;
+  transition: color 0.2s;
+  font-size: 0.7rem;
+  font-weight: 500;
+}
+
+.navButton.active {
+  color: var(--accent-color);
+}
+
+.createButton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  padding: 8px 0;
+  width: 33.333%;
+  cursor: pointer;
+  transition: color 0.2s;
+  font-size: 0.7rem;
+  font-weight: 600;
+  position: relative;
+  margin-top: -10px; /* Raise the button slightly to make it more prominent */
+}
+
+.iconWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.createIconWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--accent-color);
+  color: white;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  margin-bottom: 4px;
+  transition: transform 0.2s;
+}
+
+.createButton:active .createIconWrapper {
+  transform: scale(0.9);
+}
+
+.iconWrapper svg {
+  width: 20px;
+  height: 20px;
+}
+
+.createIconWrapper svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Show the mobile nav bar only on mobile devices */
+@media (max-width: 768px) {
+  .mobileNavBar {
+    display: flex;
+  }
+  
+  /* Add padding to the bottom of page content to prevent overlap with the nav bar */
+  :global(.app) {
+    padding-bottom: 60px;
+  }
+} 
